@@ -1,19 +1,54 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 
 export default function App() {
+
+  const [detalles, setDetalles] = useState('')
+  const [registros, setRegistros] = useState([])
+
+  const detallesInputHandler = texto => {
+    setDetalles(texto)
+  }
+
+  const agregarDetallesHandler = () => {
+    setRegistros(prevRegistros => [...prevRegistros, detalles])
+  }
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <View style={styles.inputContainer}>
+        <TextInput
+          placeholder="¿Por qué te sientes así?"
+          style={styles.input}
+          onChangeText={detallesInputHandler}
+          value={detalles}
+        />
+        <Button
+          title="Agregar registro"
+          onPress={agregarDetallesHandler}
+        />
+      </View>
+      <View>
+        {registros.map(r => <Text>{r}</Text>)}
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 32
   },
+  inputContainer: {
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  input: {
+    borderBottomColor: 'black',
+    borderWidth: 1,
+    borderRadius: 2,
+    margin: 10,
+    padding: 10,
+    width: '70%'
+  }
 });
