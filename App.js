@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList } from 'react-native';
+import React, { useState } from 'react'
+import { StyleSheet, View, Button, TextInput, FlatList } from 'react-native'
+import RegistroItem from './components/RegistroItem'
+import RegistroInput from './components/RegistroInput'
 
 export default function App() {
 
-  const [detalles, setDetalles] = useState('')
   const [registros, setRegistros] = useState([])
 
-  const detallesInputHandler = texto => {
-    setDetalles(texto)
-  }
-
-  const agregarDetallesHandler = () => {
+  const agregarRegistro = detalles => {
     setRegistros(prevRegistros => [...prevRegistros, {
       key: Math.random().toString(),
       value: detalles
@@ -19,51 +16,17 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="¿Por qué te sientes así?"
-          style={styles.input}
-          onChangeText={detallesInputHandler}
-          value={detalles}
-        />
-        <Button
-          title="Agregar registro"
-          onPress={agregarDetallesHandler}
-        />
-      </View>
+      <RegistroInput agregar={agregarRegistro} />
       <FlatList
         data={registros}
-        renderItem={itemData => (
-          <View style={styles.listItem}>
-            <Text>{itemData.item.value}</Text>
-          </View>
-        )}
+        renderItem={itemData => <RegistroItem titulo={itemData.item.value} />}
       />
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
     padding: 32
-  },
-  inputContainer: {
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  input: {
-    borderBottomColor: 'black',
-    borderWidth: 1,
-    borderRadius: 2,
-    margin: 10,
-    padding: 10,
-    width: '70%'
-  },
-  listItem: {
-    padding: 10,
-    borderColor: 'black',
-    borderWidth: 1,
-    marginVertical: 10,
-    backgroundColor: '#cecece'
   }
-});
+})
