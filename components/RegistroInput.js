@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { View, TextInput, Button, StyleSheet } from 'react-native'
-
+import { View, TextInput, Button, StyleSheet, Modal } from 'react-native'
 
 const RegistroInput = props => {
 
@@ -10,25 +9,45 @@ const RegistroInput = props => {
     setDetalles(texto)
   }
 
+  const agregarHandler = () => {
+    props.agregar(detalles)
+    setDetalles('')
+  }
+
   return (
-    <View style={styles.inputContainer}>
-      <TextInput
-        placeholder="¿Por qué te sientes así?"
-        style={styles.input}
-        onChangeText={detallesInputHandler}
-        value={detalles}
-      />
-      <Button
-        title="Agregar registro"
-        onPress={props.agregar.bind(this, detalles)}
-      />
-    </View>
+    <Modal visible={props.visible} animationType="slide">
+      <View style={styles.inputContainer}>
+        <TextInput
+          placeholder="¿Por qué te sientes así?"
+          style={styles.input}
+          onChangeText={detallesInputHandler}
+          value={detalles}
+        />
+        <View style={styles.contenedorBotones}>
+          <View style={styles.contenedorBoton}>
+            <Button
+              title="Cancelar"
+              color="red"
+              onPress={props.cancelar}
+            />
+          </View>
+          <View style={{ flex: 1 }} />
+          <View style={styles.contenedorBoton}>
+            <Button
+              title="Agregar"
+              onPress={agregarHandler}
+            />
+          </View>
+        </View>
+      </View>
+    </Modal>
   )
 }
 
 const styles = StyleSheet.create({
   inputContainer: {
-    justifyContent: 'space-between',
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center'
   },
   input: {
@@ -38,6 +57,13 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10,
     width: '70%'
+  },
+  contenedorBotones: {
+    flexDirection: 'row',
+    width: '70%'
+  },
+  contenedorBoton: {
+    flex: 10
   }
 })
 

@@ -1,11 +1,13 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
 const RegistroItem = props => {
   return (
-    <View style={styles.listItem}>
-      <Text>{props.titulo}</Text>
-    </View>
+    <TouchableOpacity onPress={() => props.eliminar(props.item.id)}>
+      <View style={styles.listItem}>
+        <Text>{props.item.value}</Text>
+      </View>
+    </TouchableOpacity>
   )
 }
 
